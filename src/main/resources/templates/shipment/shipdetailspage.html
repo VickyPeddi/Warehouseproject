@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>displaydetails</title>
+
+    <!--
+    if want to add css using thymeleaf in spring boot need to add
+    css folder and add css file un it and start go from that link
+    man
+    ex:th:href="@{/css/bootstrap.min.css}"
+    start from css folder
+    -->
+    <title>Shipmentdetails page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<section>
+<br>
+<br>
+
+
+<div class="card-body">
+    <div class="card-header text-center bg-warning">Details</div>
+
+    <table border="2" class="table-bordered text-center">
+        <thead>
+        <tr>
+            <th>Ship ID</th>
+            <th>Shipment Mode</th>
+            <th>Shipment Code</th>
+            <th>Shipment Enabled</th>
+            <th>Shipment Grade</th>
+            <th>Shipment Description</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sh:${ships}">
+            <td th:text="${sh.shipid}"></td>
+            <td th:text="${sh.shipmentcode}"></td>
+            <td th:text="${sh.shipmentmode}"></td>
+            <td th:text="${sh.shipmentenabled}"></td>
+            <td th:text="${sh.shipmentgrade}"></td>
+            <td th:text="${sh.description}"></td>
+            <td>
+                <a class="btn btn-warning"
+                   th:href="@{/ship/update/{id}(id=${sh.shipid})}">
+                    <i class="fas fa-user-edit ml-2">Update</i>
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{/ship/delete/{id}(id=${sh.shipid})}">
+                    <i class="fas fa-user-times ml-2">Delete</i>
+                </a>
+            </td>
+            <td>
+
+                <a th:href="@{/ship/excel/{id}(id=${sh.shipid})}">
+                    <img th:src="@{/images/excelimage.jpg}" alt="excel" height="50" width="30" >
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+    <div class="alert-link">
+
+        <a th:href="@{/ship/register}" class="btn btn-outline-secondary">Add New Shipment</a>
+        <a th:href="@{/ship/excelview}" class="btn btn-outline-primary">Excel View</a>
+        <a th:href="@{/ship/piechart}" class="btn btn-outline-primary">Pie Chart</a>
+        <a th:href="@{/ship/barchart}" class="btn btn-outline-primary">Bar Chart View</a>
+    </div>
+</div>
+
+<div class="alert-danger">
+    <p th:text="${message}"></p>
+</div>
+</section>
+</body>
+</html>

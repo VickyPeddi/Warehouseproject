@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Uom details page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+
+<div class="card-header text-center">
+    <h1>UOM Details Page</h1>
+</div>
+<div class="container-fluid">
+
+    <table border="1" class="table-bordered">
+        <tr>
+
+            <th>Uom Id</th>
+            <th>Uom Type</th>
+            <th>Uom Model</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="uom:${uoms}">
+            <td th:text="${uom.uomid}"></td>
+            <td th:text="${uom.uomtype}"></td>
+            <td th:text="${uom.uommodel}"></td>
+            <td th:text="${uom.description}"></td>
+            <td><a class="btn btn-warning" th:href="@{/uom/update/{id}(id=${uom.uomid})}"><i> Update</i></a></td>
+            <td><a class="btn btn-danger" th:href="@{/uom/delete/{id}(id=${uom.uomid})}"><i> Delete</i></a></td>
+        </tr>
+    </table>
+</div>
+<div class="ui-state-error-text" th:text="${msg}"></div>
+<div><a class="btn btn-primary" href="/uom/register"><i>Click Here To Register</i></a></div>
+</body>
+</html>

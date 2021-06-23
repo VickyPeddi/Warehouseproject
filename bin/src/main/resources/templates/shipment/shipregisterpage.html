@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shipmentregister Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<form id="register" th:action="@{/ship/save}" th:object="${ship}">
+    <div class="  container text-center">
+        <div class="heading ">
+            <h2>Shipment Register Page</h2>
+        </div>
+
+        <div class="mt-5">
+            <div class="row form-group">
+                <input th:field="*{shipid}" type="hidden">
+            </div> <!-- form-group end.// -->
+        </div>
+
+        <div class="row form-group">
+            <div class="col-2"><label class="col-form-label" for="shipmentmode">Shipment Mode</label></div>
+            <div class="col-4">
+                <select class="form-control dropdown-header" id="shipmentmode" th:field="*{shipmentmode}">
+                    <option class="dropdown-item" value="">Select</option>
+                    <option value="air">Air Travel</option>
+                    <option value="car">Car Travel</option>
+                    <option value="ship">SHip Travel</option>
+                    <option value="train">Train Travel</option>
+                </select>
+            </div>
+            <div class="col-6"><span id="shipmentmodeerror"></span></div>
+        </div>
+        <div class="row form-group">
+            <div class="col-2"><label class="col-form-label" for="shipmentcode">Shipment Code</label></div>
+            <div class="col-4"><input class="form-control" id="shipmentcode" th:field="*{shipmentcode}" type="text">
+            </div>
+            <div class="col-6"><span id="shipmentcodeerror"></span></div>
+        </div>
+        <div class="row form-group">
+            <div class="col-2"><label class="col-form-label" for="shipmentenabled">Shipment Enabled</label></div>
+            <div class="col-4">
+                <select class="form-control dropdown-header" id="shipmentenabled" th:field="*{shipmentenabled}">
+                    <option class="dropdown-item" value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="col-6"><span id="shipmentenablederror"></span>
+                <span th:errors="*{shipmentcode}" th:if="${#fields.hasErrors('shipmentcode')}">Full name error</span>
+            </div>
+        </div>
+        <!-- end of shipmentenabled -->
+        <div class="row form-group">
+            <div class="col-2">
+                <label class="ml-lg-3">Shipment Grade</label>
+            </div>
+            <div class="col-4">
+                <label class="custom-radio ml-5">
+                    <input name="shipmentgrade" th:field="*{shipmentgrade}" type="radio" value="a">
+                    <span> A </span>
+                </label>
+                <label class="form-check form-check-inline ml-3">
+                    <input name="shipmentgrade" th:field="*{shipmentgrade}" type="radio" value="b">
+                    <span> B</span>
+                </label>
+                <label class="form-check form-check-inline mr-3">
+                    <input name="shipmentgrade" th:field="*{shipmentgrade}" type="radio" value="c">
+                    <span> C </span>
+                </label>
+            </div>
+            <div class="col-6"><span id="shipmentgradeerror"></span></div>
+        </div>
+        <!-- end of shipmentgrade -->
+        <div class="row form-group">
+            <div class="col-3"><label class="col-form-label m-md-5" for="description">Shipment Description </label>
+            </div>
+            <div class="col-4">
+                <textarea class="form-control" cols="30" id="description" rows="10"
+                          th:field="*{description}"></textarea>
+            </div>
+            <div class="col-5"><span id="descriptionerror"></span></div>
+        </div>
+        <div class="row form-group">
+
+
+            <div class="col-6">
+                <input class="btn btn-primary form-control" type="submit">
+            </div>
+            <div class="col-6">
+                <input class="btn btn-warning form-control" type="reset">
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+
+        // step 1: Make the shipmenterror span block hide
+        $("#shipmentcodeerror").hide();
+        $("#shipmentmodeerror").hide();
+        $("#shipmentgradeerror").hide();
+        $("#shipmentenablederror").hide();
+        $("#descriptionerror").hide();
+
+
+        // take a FLag variable for every Shipment
+
+        shipmentcodeflag = false;
+        shipmentmodeflag = false;
+        shipmentgradeflag = false;
+        shipmentenabledflag = false;
+        shipmentdescriptionflag = false;
+        shipmentregisterflag = false;
+
+
+        //add events for every Shipments
+        //Shipmentmode Flag
+        $("#shipmentmode").change(function () {
+            shipmentmodevaldation();
+        });
+
+        $("#shipmentcode").keyup(function () {
+            shipmentcodevaldation();
+        });
+        $("#shipmentenabled").change(function () {
+            shipmentenabledvaldation();
+        });
+        $('input[type="radio"][name="shipmentgrade"]').change(function () {
+            shipmentgradevalidation();
+        });
+        $("#description").keyup(function () {
+            shipmentdescriptionvalidation();
+        });
+
+        $("#register").submit(function () {
+            shipmentcodevaldation();
+            shipmentmodevaldation();
+            shipmentenabledvaldation();
+            shipmentgradevalidation();
+            shipmentdescriptionvalidation();
+            if (shipmentgradeflag && shipmentcodeflag && shipmentmodeflag && shipmentdescriptionflag && shipmentenabledflag) {
+                return true;
+            } else {
+                return false;
+            }
+
+        });
+
+        function shipmentmodevaldation() {
+            var shipmentmode = $("#shipmentmode").val();
+            if (shipmentmode == "") {
+                $("#shipmentmodeerror").show();
+                $("#shipmentmodeerror").html("<b>Set a Shipment mode</b>");
+                $("#shipmentmodeerror").css({"color": "pink"});
+                shipmentmodeflag = false;
+                return shipmentmodeflag;
+            } else {
+                $("#shipmentmodeerror").hide();
+                shipmentmodeflag = true;
+            }
+            return shipmentmodeflag;
+        }
+
+
+        function shipmentcodevaldation() {
+            //take the value of shipments by using value method and store it in a variable
+            var shipmentcode = $("#shipmentcode").val();
+            if (shipmentcode == '') {
+                $("#shipmentcodeerror").show();
+                $("#shipmentcodeerror").html("<b>Set a Shipment code</b>");
+                $("#shipmentcodeerror").css({"color": "red"});
+                shipmentcodeflag = false;
+
+            } else if (shipmentcode.length > 15) {
+                $("#shipmentcodeerror").show();
+                $("#shipmentcodeerror").html("<b>Shipmentcode 15 chars</b>");
+                $("#shipmentcodeerror").css({"color": "pink"});
+                shipmentcodeflag = false;
+            } else {
+
+
+
+                //ajax start
+                $.ajax(
+                    {
+
+                        url: 'validatecode',
+                        //in this line the value is in shipmentcode and giving it to
+                        //code and code as a requestparam and data takes in the form of key-value paie
+                        //data :{"key":"value"} value stored in key
+
+                        data: {"code": shipmentcode},
+                        success: function (responsetext) {
+                            if (responsetext != "") {
+
+                                $("#shipmentcodeerror").show();
+                                $("#shipmentcodeerror").html(responsetext);
+                                $("#shipmentcodeerror").css({"color": "pink"});
+                                shipmentcodeflag = false;
+                            } else {
+                                $("#shipmentcodeerror").hide();
+                                shipmentcodeflag = true;
+                            }
+                        }
+
+                    })
+            }
+            //ajax end
+        }//else end
+        return shipmentcodeflag;
+
+
+        function shipmentenabledvaldation() {
+            var shipmentenabled = $("#shipmentenabled").val();
+            if (shipmentenabled == "") {
+                $("#shipmentenablederror").show();
+                $("#shipmentenablederror").html("<b>Set a Shipment enabled</b>");
+                $("#shipmentenablederror").css({"color": "pink"});
+                shipmentenabledflag = false;
+
+            } else {
+                $("#shipmentenablederror").hide();
+                shipmentenabledflag = true;
+            }
+            return shipmentenabledflag;
+        }
+
+        // Shipment grade validation
+        function shipmentgradevalidation() {
+
+            var shipmentgrade = $('input[type="radio"][name="shipmentgrade"]:checked').length;
+            if (shipmentgrade == 0) {
+                $("#shipmentgradeerror").show();
+                $("#shipmentgradeerror").html("<b>Choose one Shipment Grade</b>");
+                $("#shipmentgradeerror").css({"color": "pink"});
+                shipmentgradeflag = false;
+            } else {
+                $("#shipmentgradeerror").hide();
+                shipmentgradeflag = true;
+            }
+            return shipmentgradeflag;
+        }
+
+        function shipmentdescriptionvalidation() {
+            var description = $("#description").val();
+            if (description == "") {
+                // if (description.length == 0) {
+                $("#descriptionerror").show();
+                $("#descriptionerror").html("enter description");
+                $("#descriptionerror").css({"color": "red"});
+                shipmentdescriptionflag = false;
+            } else if (description.length < 10) {
+                $("#descriptionerror").show();
+                $("#descriptionerror").html("desc < 10");
+                $("#descriptionerror").css({"color": "green"});
+                shipmentdescriptionflag = false;
+            } else if (description.length > 20) {
+                $("#descriptionerror").show();
+                $("#descriptionerror").html("desc not > 20");
+                $("#descriptionerror").css({"color": "pink"});
+                shipmentdescriptionflag = false;
+            } else {
+                $("#descriptionerror").hide();
+                shipmentdescriptionflag = true;
+            }
+            return shipmentdescriptionflag;
+        }
+
+
+
+    })
+
+
+</script>
+</body>
+</html>

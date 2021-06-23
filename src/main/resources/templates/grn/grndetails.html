@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<meta charset="UTF-8">
+<title>Grn details</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<!--<style>-->
+<!--    body {-->
+<!--        font-size: medium;-->
+
+<!--    }-->
+
+<!--    .dotted {-->
+<!--        border: dotted 1mm;-->
+<!--        margin: 6mm;-->
+
+<!--    }-->
+
+<!--    .do {-->
+<!--        border: 3mm;-->
+
+<!--    }-->
+<!--</style>-->
+</head>
+<body>
+
+<section>
+    <h2 class="text-center">Grn Details</h2>
+    <table class="dotted" border="1">
+        <tr class="do" style="color: blue">
+            <th>Grn ID</th>
+            <th>Grn Code</th>
+            <th>Grn Type</th>
+            <th>Purchase Order Code</th>
+            <th>Description</th>
+        </tr>
+        <tr th:each="grn:${grns}">
+
+            <td th:text="${grn.grnid}"></td>
+            <td th:text="${grn.grncode}"></td>
+            <td th:text="${grn.grntype}"></td>
+            <td th:text="${grn.purchaseorder.ordercode}"></td>
+            <td th:text="${grn.description}"></td>
+            <td>
+                <a th:href="@{/grn/update/{id}(id=${grn.grnid})}"><i>Update</i></a>
+            </td>
+            <td>
+                <a th:href="@{/grn/delete/{id}(id=${grn.grnid})}"><i>Delete</i></a>
+            </td>
+        </tr>
+
+
+    </table>
+
+    <div class="border-dark">
+
+        <p th:text="${message}">
+
+        </p>
+
+    </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>partregisterpage</title>
+    <title>Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<form id="uomsubmit" th:action="@{/uom/save}" th:object="${uom}" method="post">
+    <div class="container text-center">
+        <div class="card-header header">Register Here</div>
+        <div class="card-body all">
+            <div class=" form-group">
+                <input th:field="*{uomid}"
+                       type="hidden">
+            </div> <!-- form-group end.// -->
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="uomtype">Uom Type</label></div>
+                <div class="col-5">
+                    <select class="form-control dropdown-header" id="uomtype" th:field="*{uomtype}">
+                        <option class="dropdown-item" value="">Select</option>
+                        <option value="packing">Packing</option>
+                        <option value="nopacking">No-Packing</option>
+                        <option value="na">-NA-</option>
+                    </select>
+                </div>
+                <div class=""><span id="uomtypeerror"></span></div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="uommodel">UOM MODEL</label></div>
+                <div class="col-5"><input class="form-control" id="uommodel" th:field="*{uommodel}" type="text">
+                </div>
+                <div class=""><span id="uommodelerror"></span></div>
+
+            </div>
+           <div class="row form-group">
+                <div class="col-3"><label class="col-form-label m-md-5" for="description">Description </label>
+                </div>
+                <div class="col-5">
+                    <textarea class="form-control" cols="30" id="description" rows="10"
+                              th:field="*{description}"></textarea>
+                </div>
+
+                <div class=""><span id="descriptionerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-5">
+                    <input class="btn btn-primary form-control" type="submit">
+                </div>
+                <div class="col-5">
+                    <input class="btn btn-warning form-control" type="reset">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

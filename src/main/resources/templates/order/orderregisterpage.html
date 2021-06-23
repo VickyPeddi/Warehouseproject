@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Order Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <style>
+        .header {
+            color: gold;
+            background-color: deeppink;
+        }
+
+        .all {
+            color: blue;
+            background-color: #d6d8db;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+<section>
+<form id="ordersubmit" th:action="@{/order/save}" th:object="${order}">
+    <div class="container text-center">
+        <div class="card-header header">Register Here</div>
+        <div class="card-body all">
+            <div class=" form-group">
+                <input th:field="*{orderid}"
+                       type="hidden">
+            </div> <!-- form-group end.// -->
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="ordermode">Order Mode</label></div>
+                <div class="col-5">
+                    Sale<input class="mr-5" id="ordermode" th:field="*{ordermode}" type="radio" value="sale">
+                    Purchase<input class="mr-5" th:field="*{ordermode}" type="radio" value="purchase">
+                </div>
+                <div class=""><span id="ordermodeerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="ordercode">Order Code</label></div>
+                <div class="col-5"><input class="form-control" id="ordercode" th:field="*{ordercode}" type="text">
+                </div>
+                <div class=""><span id="ordercodeerror"></span></div>
+
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="ordertype">Order Type</label></div>
+                <div class="col-5">
+                    <select class="form-control dropdown-header" id="ordertype" th:field="*{ordertype}">
+                        <option class="dropdown-item" value="">Select</option>
+                        <option value="fifo">FIFO</option>
+                        <option value="lifo">LIFO</option>
+                        <option value="fcfo">FCFO</option>
+                        <option value="fefo">FEFO</option>
+                    </select>
+                </div>
+                <div class=""><span id="ordertypeerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="orderaccept">Order Accept </label></div>
+                <div class="col-5"><input class="form-check-input mr-5" id="orderaccept" th:field="*{orderaccept}"
+                                          type="checkbox" value="Multi-Model">Multi-Model
+                    &nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-check-input mr-5" id="orderaccept" th:field="*{orderaccept}" type="checkbox"
+                           value="Accept-Return">Accept-Return
+                </div>
+                <div class=""><span id="orderaccepterror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label m-md-5" for="description">Order Description </label>
+                </div>
+                <div class="col-5">
+                    <textarea class="form-control" cols="30" id="description" rows="10"
+                              th:field="*{description}"></textarea>
+                </div>
+
+                <div class=""><span id="descriptionerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-5">
+                    <input class="btn btn-primary form-control" type="submit">
+                </div>
+                <div class="col-5">
+                    <input class="btn btn-warning form-control" type="reset">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $("#ordermodeerror").hide();
+        $("#ordercodeerror").hide();
+        $("#ordertypeerror").hide();
+        $("#ordermodeerror").hide();
+        $("#ordermodeerror").hide();
+
+
+    });
+
+
+</script>
+
+<div class="">
+    <p th:text="${message}"></p>
+</div>
+</section>
+</body>
+</html>

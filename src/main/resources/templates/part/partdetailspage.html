@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>partdetailspage</title>
+    <title>Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+
+<section>
+    <div class="card-header text-center">
+        <h1> Part Details Page</h1>
+    </div>
+    <div class="container-fluid">
+
+        <table border="1" class="table-bordered">
+            <tr>
+                <th>Part Id</th>
+                <th>Part Code</th>
+                <th>Part Width</th>
+                <th>Part Length</th>
+                <th>Part Height</th>
+                <th>Base Cost</th>
+                <th>Base Currency</th>
+                <th>Description</th>
+                <th>Uom Model</th>
+
+
+            </tr>
+            <tr th:each="part:${parts}">
+                <td th:text="${part.partid}"></td>
+                <td th:text="${part.partcode}"></td>
+                <td th:text="${part.partwidth}"></td>
+                <td th:text="${part.partlen}"></td>
+                <td th:text="${part.partheight}"></td>
+                <td th:text="${part.basecost}"></td>
+                <td th:text="${part.basecurrency}"></td>
+                <td th:text="${part.description}"></td>
+                <td th:text="${part.uommodel.uommodel}"></td>
+                <td><a class="btn btn-warning" th:href="@{/part/update/{id}(id=${part.partid})}"><i> Update</i></a></td>
+                <td><a class="btn btn-danger" th:href="@{/part/delete/{id}(id=${part.partid})}"><i> Delete</i></a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="alert-warning">
+        <p th:text="${message}"></p>
+    </div></section>
+</section>
+</body>
+</html>

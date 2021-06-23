@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>purchaseregisterpage</title>
+    <title>Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<section>
+<form th:action="@{/purchase/save}" th:object="${purchase}" method="post">
+    <div class="container text-center">
+        <div class="card-header">
+            <h4>Purchase Order Register Form</h4>
+
+        </div>
+        <div>
+            <input type="hidden" th:field="${purchase.id}">
+        </div>
+        <br/>
+
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label for="ordercode">Order Code</label></div>
+            <div class="col-4  ">
+                <input type="text" th:field="*{ordercode}" id="ordercode" class="form-control">
+            </div>
+            <div><span class="ui-state-error col-5" id="ordercodeerror"></span></div>
+        </div>
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label for="shipmentcode">Shipment Code</label></div>
+            <div class="col-4  ">
+                <select id="shipmentcode" class="form-control" th:field="*{shipmentmodel}">
+
+                    <option value="">Select</option>
+                    <option th:each="ship:${shipmentcode}" th:value="${ship.key}" th:text="${ship.value}"></option>
+
+                </select>
+            </div>
+            <div><span class="ui-state-error col-5" id="shipmentcodeerror"></span></div>
+        </div>
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label for="usercode">User-Code</label></div>
+            <div class="col-4  ">
+                <select id="usercode" class="form-control" th:field="*{user}">
+
+                    <option value="">Select</option>
+                    <option th:each="user:${usercode}" th:value="${user.key}" th:text="${user.value}"></option>
+
+                </select>
+            </div>
+            <div><span class="ui-state-error col-5" id="usercodeerror"></span></div>
+        </div>
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label for="referencenumber">Reference Number</label></div>
+            <div class="col-4  ">
+                <input type="text" id="referencenumber" th:field="*{referencenumber}" class="form-control">
+            </div>
+            <div><span class="ui-state-error col-5" id="referencenumbererror"></span></div>
+        </div>
+
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label>Quality Check</label></div>
+            <div class="col-4  ">
+                Required<input type="radio" name="qualitycheck" class="custom-radio" value="required">
+                Not Required<input type="radio" name="qualitycheck" class="custom-radio" value="notrequired">
+            </div>
+            <div><span class="ui-state-error col-5" id="qualitycheckerror"></span></div>
+        </div>
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label for="defaultstatus">Default Status</label></div>
+            <div class="col-4  ">
+                <input type="text" id="defaultstatus" class="form-control" readonly="true" value="open"
+                       th:field="*{defaultstatus}">
+            </div>
+            <div><span class="ui-state-error col-5" id="defaultstatuserror"></span></div>
+        </div>
+        <div class="row form-group ">
+
+            <div class="col-form-label col-3"><label for="description">Description</label></div>
+            <div class="col-4  ">
+                <textarea id="description" cols="10" rows="7" class="form-control"
+                          th:field="*{description}"></textarea>
+            </div>
+            <div><span class="ui-state-error col-5" id="descriptionerror"></span></div>
+        </div>
+        <div class="row form-group">
+
+
+            <div class="col-6">
+                <input class="btn btn-primary form-control" type="submit">
+            </div>
+            <div class="col-6">
+                <input class="btn btn-warning form-control" type="reset">
+            </div>
+        </div>
+    </div>
+</form>
+<div class="alert-dismissible">
+    <p th:text="${message}"></p>
+</div>
+</section>
+</body>
+</html>

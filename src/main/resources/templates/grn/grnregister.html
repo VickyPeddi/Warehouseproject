@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Grn Register</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css">
+</head>
+<body>
+<section>
+<h1 class="text-center">Grn Register Page</h1>
+<form th:action="@{/grn/save}" th:object="${grn}">
+    <div class="container">
+    <div class="row form-group">
+        <div class="col-2"><label for="grncode">Grn Code</label></div>
+        <div class="col-4"><input type="text" id="grncode" th:field="*{grncode}" class="form-control"></div>
+        <div class="col-7"><span id="grncodeerror"></span></div>
+
+
+    </div>
+
+    <div class="row form-group">
+        <div class="col-2"><label for="grntype">Grn Type</label></div>
+        <div class="col-4"><input type="text" id="grntype" th:field="*{grntype}" class="form-control"></div>
+        <div class="col-7"><span id="grntypeerror"></span></div>
+    </div>
+    <div class="row form-group">
+        <div class="col-2"><label for="grncode">Order Code</label></div>
+        <div class="col-4">
+            <select id="ordercode" th:field="*{purchaseorder}" class="dropdown form-control">
+                <option value="">Select</option>
+                <option th:each="pu:${purchase}" th:text="${pu.value}" th:value="${pu.key}"
+                        class="dropdown-item"></option>
+            </select>
+
+
+        </div>
+        <div class="col-7"><span id="ordercodeerror"></span></div>
+    </div>
+
+
+    <div class="row form-group">
+        <div class="col-2"><label for="description">Description</label></div>
+        <div class="col-4"><textarea th:field="*{description}" id="description" cols="10" rows="4" class="form-control"></textarea></div>
+        <div class="col-7"><span id="descriptionerror"></span></div>
+    </div>
+    <div class="row form-group">
+
+        <div class="col-6"><input type="submit" class="btn btn-success form-control" value="Register"></div>
+        <div class="col-6"><input type="reset" class="btn btn-warning form-control"></div>
+    </div>
+</div>
+</form>
+    <div class="badge-danger">
+        <p th:text="${message}"></p>
+
+    </div>
+</section>
+</body>
+</html>

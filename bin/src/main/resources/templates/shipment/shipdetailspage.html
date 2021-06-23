@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>displaydetails</title>
+
+    <!--
+    if want to add css using thymeleaf in spring boot need to add
+    css folder and add css file un it and start go from that link
+    man
+    ex:th:href="@{/css/bootstrap.min.css}"
+    start from css folder
+    -->
+    <title>Shipmentdetails page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<br>
+<br>
+
+
+<div class="card-body">
+    <div class="card-header text-center bg-warning">Details</div>
+
+    <table border="1" class="table-bordered text-center">
+        <thead>
+        <tr>
+            <th>Ship ID</th>
+            <th>Shipment Mode</th>
+            <th>Shipment Code</th>
+            <th>Shipment Enabled</th>
+            <th>Shipment Grade</th>
+            <th>Shipment Description</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sh:${ships}">
+            <td th:text="${sh.shipid}"></td>
+            <td th:text="${sh.shipmentcode}"></td>
+            <td th:text="${sh.shipmentmode}"></td>
+            <td th:text="${sh.shipmentenabled}"></td>
+            <td th:text="${sh.shipmentgrade}"></td>
+            <td th:text="${sh.description}"></td>
+            <td>
+                <a class="btn btn-warning"
+                   th:href="@{/ship/update/{id}(id=${sh.shipid})}">
+                    <i class="fas fa-user-edit ml-2">Update</i>
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{/ship/delete/{id}(id=${sh.shipid})}">
+                    <i class="fas fa-user-times ml-2">Delete</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <a th:href="@{/ship/register}">Click here to Add new user</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase order data details</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<section>
+    <div class="card">
+        <div class="card-header">
+
+        <h2>Purchase Order Data Details</h2>
+        </div>
+    <div class="card-body">
+        <table>
+            <th>Order Code</th>
+            <th th:text="${po.ordercode}"></th>
+            <th>Status</th>
+            <th th:text="${po.defaultstatus}"></th>
+        </table>
+
+    </div>
+    </div>
+</section>
+</body>
+</html>

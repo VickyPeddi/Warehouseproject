@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="ISO-8859-1">
+
+    <title>Userregister Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+
+<body>
+<section>
+    <form id="register" method="post" th:action="@{/user/save}"
+          th:object="${user}">
+        <div class="text-center">Register Page</div>
+        <div class="card-body text-center">
+            <input type="hidden" th:field="*{userid}">
+            <div class="row">
+                <div class="col-3">
+                    <label> User Type </label>
+                </div>
+                <div class="col-4">
+                    Vendor<input name="usertype" type="radio" value="vendor">
+                    &nbsp; Customer<input name="usertype" type="radio" value="customer">
+                </div>
+                <div class="col-5">
+                    <span id="usertypeerror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="usercode"> User Code </label>
+
+                </div>
+                <div class="col-4">
+                    <input class="form-control" id="usercode" th:field="*{usercode}"
+                           type="text">
+                </div>
+                <div class="col-5">
+                    <span id="usercodeerror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="userfor"> User For </label>
+
+                </div>
+                <div class="col-4">
+                    <input class="form-control" id="userfor" th:field="*{userfor}"
+                           type="text" readonly="true">
+                </div>
+                <div class="col-5">
+                    <span id="userforerror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="useremail"> User Email </label>
+
+                </div>
+                <div class="col-4">
+                    <input class="form-control" id="useremail" type="text"
+                           th:field="*{useremail}">
+                </div>
+                <div class="col-5">
+                    <span id="useremailerror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="usercontact"> User Contact </label>
+
+                </div>
+                <div class="col-4">
+                    <input class="form-control" id="usercontact" type="text"
+                           th:field="*{usercontact}">
+                </div>
+                <div class="col-5">
+                    <span id="usercontacterror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="useridtype"> User Id Type </label>
+                </div>
+                <div class="col-4">
+                    <select class="dropdown form-control" id="useridtype"
+                            th:field="*{useridtype}">
+                        <option value="">Select</option>
+                        <option value="pancard">Pancard</option>
+                        <option value="aadharcard">Aadharcard</option>
+                        <option value="voterid">Voter Id</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <span id="useridtypeerror"></span>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="ifother"> If Other Selected </label>
+
+                </div>
+                <div class="col-4">
+                    <input class="form-control" id="ifother" type="text" readonly
+                           th:field="*{ifother}">
+                </div>
+                <div class="col-5">
+                    <span id="ifothererror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <label for="idnumber"> ID Number </label>
+
+                </div>
+                <div class="col-4">
+                    <input class="form-control" id="idnumber" type="text"
+                           th:field="*{idnumber}">
+                </div>
+                <div class="col-5">
+                    <span id="idnumbererror"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <input class="btn btn-primary" type="submit" value="Register">
+                </div>
+                <div class="col-6">
+                    <input class="btn btn-warning" type="reset" value="Reset">
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(document)
+            .ready(
+                function () {
+                    //hide the error span section
+                    $("#usertypeerror").hide();
+                    $("#usercodeerror").hide();
+                    $("#useremailerror").hide();
+                    $("#usercontacterror").hide();
+                    $("#useridtypeerror").hide();
+                    $("#idnumbererror").hide();
+
+                    //set the flag false
+                    usertypeflag = false;
+                    usercodeflag = false;
+                    useremailflag = false;
+                    usercontactflag = false;
+                    /* useridtypeflag = false; */
+                    useridnumberflag = false;
+
+                    //create the event functions and call a method
+
+                    //usertype is radiobutton so we need to use change()
+                    $("input[type='radio'][name='usertype']").change(
+                        function () {
+                            usertype_valdation();
+                        })
+
+                    function usertype_valdation() {
+                        var usertype = $(
+                            "input[type='radio'][name='usertype']:checked")
+                            .val();
+
+                        if (usertype == 'vendor') {
+                            $("#usertypeerror").hide();
+                            $("#userfor").val("Purchase");
+                            usertypeflag = true;
+
+                        } else if (usertype == 'customer') {
+                            $("#userfor").val("Sale");
+                            $("#usertypeerror").hide();
+                            usertypeflag = true
+
+                        } else {
+                            $("#usertypeerror").show();
+                            $("#usertypeerror").html(
+                                "choose one usertype");
+                            $("#usertypeerror").css({
+                                "color": "red"
+                            });
+                            usertypeflag = true;
+                        }
+                        return usertypeflag;
+                    }
+
+                    //user code validation
+                    $("#usercode").keyup(function () {
+                        usercode_valdation();
+                    })
+
+                    function usercode_valdation() {
+                        var usercode = $("#usercode").val();
+
+                        if (usercode == "") {
+                            $("#usercodeerror").show();
+                            $("#usercodeerror").html("enter usecode");
+                            usercodeflag = false;
+
+                        } else {
+                            $("#usercodeerror").hide();
+                            usercodeflag = true;
+                        }
+                        return usercodeflag;
+                    }
+
+                    //useremail validation
+                    $("#useremail").keyup(function () {
+                        useremail_valdation();
+                    })
+
+                    function useremail_valdation() {
+                        var useremail = $("#useremail").val();
+
+                        if (useremail == "") {
+                            $("#useremailerror").show();
+                            $("#useremailerror").html(
+                                "enter user email");
+                            useremailflag = false;
+                        } else {
+                            $("#useremailerror").hide();
+                            useremailflag = true;
+                        }
+                        return useremailflag;
+                    }
+
+                    //usercontact validation
+                    $("#usercontact").keyup(function () {
+                        usercontact_valdation();
+                    })
+
+                    function usercontact_valdation() {
+                        var usercode = $("#usercontact").val();
+
+                        if (usercode == "") {
+                            $("#usercontacterror").show();
+                            $("#usercontacterror").html(
+                                "enter usercontact");
+                            usercontactflag = false;
+
+                        } else {
+                            $("#usercontacterror").hide();
+                            usercontactflag = true;
+                        }
+                        return usercontactflag;
+                    }
+
+                    //user id type and if other validation
+                    $("#useridtype").change(function () {
+                        useridtype_validation();
+                    })
+
+                    function useridtype_validation() {
+                        var useridtype = $("#useridtype").val();
+                        if (useridtype == "other") {
+                            $("#ifother").removeAttr("readonly",
+                                "false");
+                            return useridtypeflag = true;
+                        } else if (useridtype == "") {
+                            $("#useridtypeerror").show();
+                            $("#useridtypeerror").html(
+                                "choose one useridtype");
+                            return useridtypeflag = false;
+                        } else {
+                            $("#ifother").attr("readonly", "true");
+                            $("#useridtypeerror").hide();
+                            return useridtypeflag = true;
+                        }
+
+                    }
+
+                    //useridnumber validation
+                    $("#idnumber").keyup(function () {
+                        useridnumber_valdation();
+                    })
+
+                    function useridnumber_valdation() {
+                        var userid = $("#idnumber").val();
+
+                        if (userid == "") {
+                            $("#idnumbererror").show();
+                            $("#idnumbererror").html(
+                                "enter user id number");
+                            useridnumberflag = false;
+
+                        } else {
+                            $("#idnumbererror").hide();
+                            useridnumberflag = true;
+                        }
+                        return useridnumberflag;
+                    }
+
+                    $("#register").submit(
+                        function () {
+                            usertype_valdation();
+                            usercode_valdation();
+                            useremail_valdation();
+                            useridtype_validation();
+                            useridnumber_valdation();
+                            usercontact_valdation();
+
+                            if (usertypeflag && usercodeflag
+                                && useremailflag
+                                && useridtypeflag
+                                && useridnumberflag
+                                && usercontactflag) {
+                                return true;
+
+                            } else {
+                                return false;
+                            }
+                        })
+
+                });
+    </script>
+    <div class="alert-warning">
+        <p th:text="${message}"></p>
+    </div>
+
+</section>
+</body>
+</html>
+

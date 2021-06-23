@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>saleorderdetails</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <style>
+        body {
+            font-size: medium;
+
+        }
+
+        .dotted {
+            border: dotted 1mm;
+            margin: 6mm;
+
+        }
+
+        .do {
+            border: 3mm;
+
+        }
+    </style>
+</head>
+<body>
+<section>
+<h2 class="text-center">Saleorder Details</h2>
+<table class="dotted" border="1">
+    <tr class="do" style="color: blue">
+        <th>Sale ID</th>
+        <th>Order Code</th>
+        <th>Shipment Code</th>
+        <th>Customer</th>
+        <th>Reference No</th>
+        <th>Stock Mode</th>
+        <th>Stock Source</th>
+        <th>Default Status</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="sale:${sales}">
+
+        <td th:text="${sale.saleid}"></td>
+        <td th:text="${sale.ordercode}"></td>
+        <td th:text="${sale.shipmentcode.shipmentcode}"></td>
+        <td th:text="${sale.user.usertype}"></td>
+        <td th:text="${sale.referenceno}"></td>
+        <td th:text="${sale.stockmode}"></td>
+        <td th:text="${sale.stocksource}"></td>
+        <td th:text="${sale.defaultstatus}"></td>
+        <td th:text="${sale.description}"></td>
+        <td>
+            <a th:href="@{/sale/update/{id}(id=${sale.saleid})}"><i>Update</i></a>
+        </td>
+        <td>
+            <a th:href="@{/sale/delete/{id}(id=${sale.saleid})}"><i>Delete</i></a>
+        </td>
+    </tr>
+
+
+</table>
+
+<br>
+<div class="alert-danger">
+    <p th:text="${message}"></p>
+</div>
+</section>
+</body>
+</html>

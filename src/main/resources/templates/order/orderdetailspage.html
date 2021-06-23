@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"   th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderDetails Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<section>
+<div class="card-header text-center">
+    <h1>Details Page</h1>
+</div>
+<div class="container-fluid">
+
+    <table border="1" class="table-bordered">
+        <tr>
+            <th>Order Id</th>
+            <th>Order Mode</th>
+            <th>Order Code</th>
+            <th>Order Type</th>
+            <th>Order Accept</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="order:${orders}">
+            <td th:text="${order.orderid}"></td>
+            <td th:text="${order.ordermode}"></td>
+            <td th:text="${order.ordercode}"></td>
+            <td th:text="${order.ordertype}"></td>
+            <td th:text="${order.orderaccept}"></td>
+            <td th:text="${order.description}"></td>
+            <td><a class="btn btn-warning" th:href="@{/order/update/{id}(id=${order.orderid})}"><i> Update</i></a></td>
+            <td><a class="btn btn-danger" th:href="@{/order/delete/{id}(id=${order.orderid})}"><i> Delete</i></a></td>
+        </tr>
+    </table>
+</div>
+<div class="alert-link">
+
+    <a th:href="@{/order/gotoregister}" class="btn btn-outline-secondary">Add New Shipment</a>
+    <a th:href="@{/ship/excelview}" class="btn btn-outline-primary">Excel View</a>
+    <a th:href="@{/order/piechart}" class="btn btn-outline-primary">Pie Chart</a>
+    <a th:href="@{/order/barchart}" class="btn btn-outline-primary">Bar Chart View</a>
+</div>
+
+<div class="alert-primary">
+    <p th:text="${message}"></p>
+
+</div>
+</section>
+</body>
+</html>

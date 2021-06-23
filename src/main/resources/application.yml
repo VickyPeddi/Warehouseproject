@@ -1,0 +1,44 @@
+server:
+  port: 1000
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      exclude: resources/**,static/**,public/**,templates/**
+  datasource:
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/warehouse
+    password: nanda
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  servlet:
+    multipart:
+      enabled=true
+      max-file-size=10MB
+      max-request-size=15MB
+
+  mail:
+    port: 587
+    username: nandakishorepeddi9@gmail.com
+    password: nandakishore415
+    host: smtp.gmail.com
+    protocol: smtp
+
+
+#logging properties
+logging:
+  file:
+    name: E:\logfiles\warehouselogs\whlog.log
+
+  max-size: 100kb
+  #  pattern:
+  #  file: %d %p %C [%M] : %m %n
+  #   delete old logs
+  rolling-file-name: ${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz
+
+#

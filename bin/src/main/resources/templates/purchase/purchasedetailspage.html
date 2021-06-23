@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>purchasedetailspage</title>
+    <title>Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<table class="table-bordered text-center">
+    <tr>
+
+        <th>
+            ordercode
+        </th>
+        <th>
+            Shipmentcode
+        </th>
+        <th>
+            Reference Number
+        </th>
+        <th>
+            Quality Check
+        </th>
+        <th>
+            Default status
+        </th>
+        <th>
+            Description
+        </th>
+    </tr>
+    <tr th:each="purchase:${purchases}">
+        <td th:text="${purchase.id}"></td>
+        <td th:text="${purchase.ordercode}"></td>
+        <td th:text="${purchase.shipmentmodel.shipmentcode}"></td>
+        <td th:text="${purchase.referencenumber}"></td>
+        <td th:text="${purchase.qualitycheck}"></td>
+        <td th:text="${purchase.defaultstatus}"></td>
+        <td th:text="${purchase.description}"></td>
+        <td><a th:href="@{/purchase/update/{id}(id=${purchase.id})}"><b> <i>Update</i></b></a></td>
+        <td><a th:href="@{/purchase/delete/{id}(id=${purchase.id})}"><b> <i>Delete</i></b></a></td>
+    </tr>
+
+
+</table>
+<br><br>
+<a href="/purchase/register"><u><i>CLick here to Register</i></u></a>
+
+</body>
+</html>

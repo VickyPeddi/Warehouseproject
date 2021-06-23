@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>documentregister</title>
+    <title>Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<section>
+    <div class="text-center" style="">Document regiser Page</div>
+
+
+
+
+
+
+
+
+
+    <form th:action="@{/doc/save}" th:object="${document}" enctype="multipart/form-data" method="post">
+        <input type="hidden" th:field="*{docid}">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-2">
+                    <label for="docname">Documentname</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" id="docname" th:field="*{docname}" class="form-control">
+                </div>
+                <div class="col-7">
+                    <span id="docnameerror"></span>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-2">
+                    <label for="docdata">Document Data</label>
+                </div>
+                <div class="col-3">
+                    <input type="file" id="docdata" name="documentdata" class="form-control-file"
+                           accept="image/jpeg,.doc,.pdf">
+                </div>
+                <div class="col-7">
+                    <span id="docdataerror"></span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-5">
+                    <input class="btn btn-primary form-control" type="submit">
+                </div>
+                <div class="col-5">
+                    <input class="btn btn-warning form-control" type="reset">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <script th:src="@{/js/document.js}"></script>
+
+    <div>
+        <span class="badge-danger" th:text="${message}"></span></div>
+    </div>
+</section>
+
+
+</body>
+</html>

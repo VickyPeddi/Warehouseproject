@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>partregisterpage</title>
+    <title>Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+
+
+</head>
+<body>
+<form id="partsubmit" th:action="@{/part/save}" th:object="${part}" method="post">
+    <div class="container text-center">
+        <div class="card-header header">Register Here</div>
+        <div class="card-body all">
+            <div class=" form-group">
+                <input th:field="*{partid}"
+                       type="hidden">
+            </div> <!-- form-group end.// -->
+
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="partcode">Part Code</label></div>
+                <div class="col-5"><input class="form-control" id="partcode" th:field="*{partcode}" type="text">
+                </div>
+                <div class=""><span id="partcodeerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="partwidth">Part Width</label></div>
+                <div class="col-5"><input class="form-control" id="partwidth" th:field="*{partwidth}" type="text">
+                </div>
+                <div class=""><span id="partwidtherror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="partlength">Part Length</label></div>
+                <div class="col-5"><input class="form-control" id="partlength" th:field="*{partlen}" type="text"
+                >
+                </div>
+                <div class=""><span id="partlengtherror"></span></div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="partheight">Part Height</label></div>
+                <div class="col-5"><input class="form-control" id="partheight" th:field="*{partheight}" type="text">
+                </div>
+                <div class=""><span id="partheighterror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="basecost">Base Cost</label></div>
+                <div class="col-5"><input class="form-control" id="basecost" th:field="*{basecost}" type="text">
+                </div>
+                <div class=""><span id="basecosterror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="basecurrency">Basecurrency</label></div>
+                <div class="col-5">
+                    <select class="form-control dropdown-header" id="basecurrency" th:field="*{basecurrency}">
+                        <option class="dropdown-item" value="">Select</option>
+                        <option value="inr">INR</option>
+                        <option value="usd">USD</option>
+                        <option value="aus">AUS</option>
+                        <option value="euro">EURO</option>
+                    </select>
+                </div>
+                <div class=""><span id="basecurrencyerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label" for="uommodeldropdown">Uommodel options</label></div>
+                <div class="col-5">
+                    <select class="form-control dropdown-header" id="uommodeldropdown" th:field="*{uommodel}">
+                        <option class="dropdown-item" value="">Select</option>
+                        <option th:each="uom:${uomdrop}" th:value="${uom.key}" th:text="${uom.value}"></option>
+
+                    </select>
+                </div>
+                <div class=""><span id="uommodeldropdownerror"></span></div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-3"><label class="col-form-label m-md-5" for="description">Part Description </label>
+                </div>
+                <div class="col-5">
+                    <textarea class="form-control" cols="30" id="description" rows="10"
+                              th:field="*{description}"></textarea>
+                </div>
+
+                <div class=""><span id="descriptionerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-5">
+                    <input class="btn btn-primary form-control" type="submit">
+                </div>
+                <div class="col-5">
+                    <input class="btn btn-warning form-control" type="reset">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+
+        // step 1: Make the shipmenterror span block hide
+        partcodeflag = false
+        partwidthflag = false;
+        partlengthflag = false;
+        partheightflag = false;
+        partbasecostflag = false;
+        partbasecurrencyflag = false;
+        partdescriptionflag = false;
+        partuommodelflag = false;
+
+//hide the errors
+        $("#partcodeerror").hide();
+        $("#partheighterror").hide();
+        $("#partwidtherror").hide();
+        $("#partlengtherror").hide();
+        $("#basecosterror").hide();
+        $("#basecurrencyerror").hide();
+        $("#uommodeldropdownerror").hide();
+        $("#descriptionerror").hide();
+
+
+        $("#partcode").keyup(function () {
+            partcode_valdation();
+        });
+
+        $("#partlength").keyup(function () {
+            partlength_valdation();
+        });
+        $("#partwidth").keyup(function () {
+            partwidth_valdation();
+        });
+        $("#partheight").keyup(function () {
+            partheight_valdation();
+        });
+        $("#basecost").keyup(function () {
+            partbasecost_valdation();
+        });
+        $("#basecurrency").change(function () {
+            partbasecurrency_valdation();
+        })
+        $("#uommodeldropdown").change(function () {
+            uommodeldropdown_valdation();
+        })
+        $("#description").keyup(function () {
+            partdescription_validation();
+        })
+
+
+        //partcode_validation
+        function partcode_valdation() {
+            var partcode = $("#partcode").val();
+            if (partcode == "") {
+                $("#partcodeerror").show();
+                $("#partcodeerror").html("<b>partcode</b>");
+                $("#partcodeerror").css("color", "red");
+                partcodeflag = false;
+            } else {
+                $("#partcodeerror").hide();
+                partcodeflag = true;
+            }
+            return partcodeflag;
+        }
+
+        //partlength_validation
+        function partlength_valdation() {
+            var partlength = $("#partlength").val();
+            if (partlength <= 0 && partlength == 0.0) {
+                $("#partlengtherror").show();
+                $("#partlengtherror").html("<b>Partlen > 0</b>");
+                $("#partlengtherror").css("color", "red");
+                partlengthflag = false;
+            }
+
+            else {
+                $("#partlengtherror").hide();
+                partlengthflag = true;
+            }
+            return partlengthflag;
+        }
+
+        //partheight_validation
+        function partheight_valdation() {
+            var partheight = $("#partheight").val();
+            if (partheight <= 0 && partheight == 0.0) {
+                $("#partheighterror").show();
+                $("#partheighterror").html("<b>set partht > 0</b>");
+                $("#partheighterror").css("color", "red");
+                partheightflag = false;
+            }
+
+
+            else {
+                $("#partheighterror").hide();
+                partheightflag = true;
+            }
+            return partheightflag;
+        }
+
+        //partwidth_validation
+        function partwidth_valdation() {
+            var val = $("#partwidth").val();
+            if (val <= 0 && val == 0.0) {
+                $("#partwidtherror").show();
+                $("#partwidtherror").html("<b>set partwidthflag > 0</b>");
+                $("#partwidtherror").css("color", "red");
+                partwidthflag = false;
+            }
+
+            else {
+                $("#partwidtherror").hide();
+                partwidthflag = true;
+            }
+            return partwidthflag;
+        }
+
+        //partbasecost_validation
+        function partbasecost_valdation() {
+            var val = $("#basecost").val();
+            if (val <= 0 && val == 0.0) {
+                $("#basecosterror").show();
+                $("#basecosterror").html("<b>set partbasecost > 0</b>");
+                $("#basecosterror").css("color", "red");
+                partbasecostflag = false;
+            }
+
+            else {
+                $("#basecosterror").hide();
+                partbasecostflag = true;
+            }
+            return partbasecostflag;
+        }
+
+        //partbasecurrency_validation
+        function partbasecurrency_valdation() {
+            var partbasecurrency = $("#basecurrency").val();
+            if (partbasecurrency == "") {
+                $("#basecurrencyerror").show();
+                $("#basecurrencyerror").html("<b>base currency</b>");
+                $("#basecurrencyerror").css("color", "red");
+                partbasecurrencyflag = false;
+            } else {
+                $("#basecurrencyerror").hide();
+                partbasecurrencyflag = true;
+            }
+            return partbasecurrencyflag;
+        }
+
+        //uommodeldropdownvalidation
+        function uommodeldropdown_valdation() {
+            var val = $("#uommodeldropdown").val();
+            if (val == "" ) {
+                $("#uommodeldropdownerror").show();
+                $("#uommodeldropdownerror").html("<b>sbase cost</b>");
+                $("#uommodeldropdownerror").css("color", "red");
+                partuommodelflag = false;
+            } else {
+                $("#uommodeldropdownerror").hide();
+                partuommodelflag = true;
+            }
+            return partuommodelflag;
+        }
+
+        //partdescription_validation
+        function partdescription_validation() {
+            var description = $("#description").val();
+            if (description == "") {
+                $("#descriptionerror").show();
+                $("#descriptionerror").html("enter description");
+                $("#descriptionerror").css({"color": "red"});
+                partdescriptionflag = false;
+            } else if (description.length < 10) {
+                $("#descriptionerror").show();
+                $("#descriptionerror").html("desc < 10");
+                $("#descriptionerror").css({"color": "green"});
+                partdescriptionflag = false;
+            } else if (description.length > 20) {
+                $("#descriptionerror").show();
+                $("#descriptionerror").html("desc not > 20");
+                $("#descriptionerror").css({"color": "pink"});
+                partdescriptionflag = false;
+            } else {
+                $("#descriptionerror").hide();
+                partdescriptionflag = true;
+            }
+            return partdescriptionflag;
+        }
+
+        $("#partsubmit").submit(function () {
+            partcode_valdation();
+            partlength_valdation();
+            partwidth_valdation();
+            partheight_valdation();
+            partbasecost_valdation();
+            partbasecurrency_valdation();
+            uommodeldropdown_valdation();
+            partdescription_validation();
+
+            if (partcodeflag && partheightflag && partwidthflag && partlengthflag && partbasecostflag && partbasecurrencyflag && partuommodelflag && partdescriptionflag) {
+                return true;
+            } else {
+                return false;
+            }
+
+        });
+        //
+        // function shipmentcodevaldation() {
+        //     //take the value of shipments by using value method and store it in a variable
+        //     var shipmentcode = $("#shipmentcode").val();
+        //     if (shipmentcode == '') {
+        //         $("#shipmentcodeerror").show();
+        //         $("#shipmentcodeerror").html("<b>Set a Shipment code</b>");
+        //         $("#shipmentcodeerror").css({"color": "red"});
+        //         shipmentcodeflag = false;
+        //
+        //     } else if (shipmentcode.length > 15) {
+        //         $("#shipmentcodeerror").show();
+        //         $("#shipmentcodeerror").html("<b>Shipmentcode 15 chars</b>");
+        //         $("#shipmentcodeerror").css({"color": "pink"});
+        //         shipmentcodeflag = false;
+        //     } else {
+        //
+        //
+        //         //ajax start
+        //         $.ajax(
+        //             {
+        //
+        //                 url: 'validatecode',
+        //                 //in this line the value is in shipmentcode and giving it to
+        //                 //code and code as a requestparam and data takes in the form of key-value paie
+        //                 //data :{"key":"value"} value stored in key
+        //
+        //                 data: {"code": shipmentcode},
+        //                 success: function (responsetext) {
+        //                     if (responsetext != "") {
+        //
+        //                         $("#shipmentcodeerror").show();
+        //                         $("#shipmentcodeerror").html(responsetext);
+        //                         $("#shipmentcodeerror").css({"color": "pink"});
+        //                         shipmentcodeflag = false;
+        //                     } else {
+        //                         $("#shipmentcodeerror").hide();
+        //                         shipmentcodeflag = true;
+        //                     }
+        //                 }
+        //
+        //             })
+        //     }
+        //     //ajax end
+        // }//else end
+        // return shipmentcodeflag;
+
+
+    })
+</script>
+</body>
+</html>

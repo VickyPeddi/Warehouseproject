@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Saleorder Register Page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <style>
+        body {
+            font-size: larger;
+            font-family: Arial;
+            color: blue;
+            background-color: white;
+        }
+
+    </style>
+</head>
+<body>
+<section>
+    <form th:action="@{/sale/save}" th:object="${sale}" method="post">
+        <h1 class="text-center" style="margin: 15mm"><u>Sale Register Page</u></h1>
+        <input type="hidden" th:field="*{saleid}">
+        <div class="container body">
+            <div class="row form-group">
+                <div class="col-2"><label for="ordercode">OrderCode</label></div>
+                <div class="col-5"><input type="text" th:field="*{ordercode}" id="ordercode" class="form-control"></div>
+                <div class="col-5"><span class="ui-state-error" id="ordercodeerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="shipmentcode">Shipment Code</label></div>
+                <div class="col-5">
+                    <select id="shipmentcode" class="dropdown form-control" th:field="*{shipmentcode}">
+                        <option value="" class="dropdown-item ">Select</option>
+                        <option th:each="sh:${ship}" th:value="${sh.key}" th:text="${sh.value}"></option>
+                    </select>
+                </div>
+                <div class="col-5"><span class="ui-state-error" id="shipmentcoderror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="customer">Customer</label></div>
+                <div class="col-5">
+                    <select name="" id="customer" class="dropdown form-control" th:field="*{user}">
+                        <option value="" class="dropdown-item">Select</option>
+                        <option th:each="us:${user}" th:text="${us.value}" th:value="${us.key}"></option>
+                    </select>
+                </div>
+                <div class="col-5"><span class="ui-state-error" id="customenerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="ordercode">Reference No</label></div>
+                <div class="col-5"><input type="text" th:field="*{referenceno}" id="referenceno" class="form-control">
+                </div>
+                <div class="col-5"><span class="ui-state-error" id="referencenorror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="stockmode">Stock Mode</label></div>
+                <div class="col-5"><input type="text" th:field="*{stockmode}" id="stockmode" class="form-control"></div>
+                <div class="col-5"><span class="ui-state-error" id="stockmodeerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="stocksource">Stocksource</label></div>
+                <div class="col-5"><input type="text" th:field="*{stocksource}" id="stocksource" class="form-control">
+                </div>
+                <div class="col-5"><span class="ui-state-error" id="stocksourceerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="defaultstatus">Default Status</label></div>
+                <div class="col-5"><input type="text" th:field="*{defaultstatus}" id="defaultstatus"
+                                          class="form-control">
+                </div>
+                <div class="col-5"><span class="ui-state-error" id="defaultstatuserror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-2"><label for="description" style="margin-top: 17mm">Description</label></div>
+                <div class="col-5"><textarea id="description" th:field="*{description}" cols="12" rows="5"
+                                             class="form-control"></textarea></div>
+                <div class="col-5"><span class="ui-state-error" id="descriptionerror"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-6">
+                    <input class="btn btn-primary form-control" type="submit">
+                </div>
+                <div class="col-6">
+                    <input class="btn btn-warning form-control" type="reset">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="alert-danger">
+        <p th:text="${message}"></p>
+    </div>
+</section>
+</body>
+</html>

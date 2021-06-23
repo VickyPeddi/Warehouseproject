@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User details Page</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" th:src="@{/js/jquery-1.8.3.min.js}"></script>
+</head>
+<body>
+<section>
+    <div class="card-header text-center">
+        <h3>Details Page</h3>
+    </div>
+
+
+    <br>
+    <table border="1">
+        <tr>
+            <th>User Id</th>
+            <th>User Code</th>
+            <th>User For</th>
+            <th>User Email</th>
+            <th>User Contact</th>
+            <th>User Id Type</th>
+            <th>User If other</th>
+            <th>User Id Number</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="us:${users}">
+            <td th:text="${us.userid}"></td>
+            <td th:text="${us.usertype}"></td>
+            <td th:text="${us.usercode}"></td>
+            <td th:text="${us.userfor}"></td>
+            <td th:text="${us.useremail}"></td>
+            <td th:text="${us.usercontact}"></td>
+            <td th:text="${us.useridtype}"></td>
+            <td th:text="${us.ifother}"></td>
+            <td th:text="${us.idnumber}"></td>
+            <td>
+                <a class="btn btn-warning"
+                   th:href="@{/user/update/{id}(id=${us.userid})}">
+                    <i class="fas fa-user-edit ml-2">Update</i>
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{/user/delete/{id}(id=${us.userid})}">
+                    <i class="fas fa-user-times ml-2">Delete</i>
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{/user/excel/{id}(id=${us.userid})}">
+                    <i class="fas fa-user-times ml-2">Excel</i>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        <a href="/user/register">Click here to Add new User</a><br>
+        <a href="/user/excel">Click here to Excel</a><br>
+        <a href="/user/pdf">Click here to Pdf</a><br>
+    </div>
+
+    <br>
+    <div class="alert-warning">
+        <p th:text="${message}"></p>
+    </div>
+</section>
+</body>
+</html>

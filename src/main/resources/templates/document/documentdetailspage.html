@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>document details page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+
+</head>
+<body>
+<section>
+    <div class="card-body">
+        <div class="card-header text-center bg-warning">Details</div>
+
+        <table border="1" class="table-bordered text-center">
+            <thead>
+            <tr>
+                <th>Document ID</th>
+                <th>Document Name</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="doc:${documents}">
+                <td th:text="${doc.docid}"></td>
+                <td th:text="${doc.docname}"></td>
+                <td>
+                    <a class="btn btn-warning"
+                       th:href="@{/doc/update/{id}(id=${doc.docid})}">
+                        <i class="fas fa-user-edit ml-2">Update</i>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-danger"
+                       th:href="@{/doc/delete/{id}(id=${doc.docid})}">
+                        <i class="fas fa-user-times ml-2">Delete</i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <a th:href="@{/doc/register}">Click here to Add new user</a>
+    </div>
+    <div>
+        <span class="badge-danger" th:text="${message}"></span></div>
+    </div>
+</section>
+</body>
+</html>
