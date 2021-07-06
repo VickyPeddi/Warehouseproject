@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="tlayout/all::layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="tlayout/all::layout(~{::section})">
 <head>
     <meta charset="UTF-8">
     <title>Purchase order data details</title>
@@ -10,20 +11,102 @@
 </head>
 <body>
 <section>
-    <div class="card">
-        <div class="card-header">
-
-        <h2>Purchase Order Data Details</h2>
+    <div class="container">
+        <div class="card-header text-center"
+             style="color: white; background-color: blue;">
+            <h2>Select Parts Here</h2>
         </div>
-    <div class="card-body">
-        <table>
-            <th>Order Code</th>
-            <th th:text="${po.ordercode}"></th>
-            <th>Status</th>
-            <th th:text="${po.defaultstatus}"></th>
-        </table>
+        <div class="card">
+            <div class="card-body">
+                <table class="text-center form-control" >
 
-    </div>
+                    <th>Order Code</th>
+                    <th><input th:field="*{purchase.ordercode}" readonly="readonly" /></th>
+
+
+                    <th>Status</th>
+                    <th><input th:field="*{purchase.defaultstatus}" readonly="readonly"/></th>
+
+                </table>
+            </div>
+        </div>
+        <hr>
+
+        <!--part add form action start  -->
+        <div class="card" style="margin-top: 3mm;" th:if="${purchase.defaultstatus=='PICKING'|| purchase.defaultstatus=='OPENED'}">
+            <div class="card-body">
+                <h3>Add Parts to Card</h3>
+                <form th:object="${purchasedtls}" method="post"
+                      th:action="@{/purchase/addpart}">
+                    <input type="hidden" th:field="*{purchaseorder.id}">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Select Parts</label>
+                        </div>
+                        <div class="col-3">
+                            <select class="dropdown form-control" th:field="*{part}">
+                                <option class="dropdown-item" value="">Select Here</option>
+                                <option th:each="part:${parts}" th:text="${part.value}"
+                                        th:value="${part.key}"></option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <label>Qty</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" th:field="*{qty}" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <input type="submit" value="Add" class="btn btn btn-primary"
+                                   style="margin-right: 3mm;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--part form action end  -->
+        <!--part details table start  -->
+        <div class="card" style="margin-top: 3mm;">
+            <div class="card-body">
+                <h3>Parts</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Sno</th>
+                        <th scope="col">Part Code</th>
+                        <th scope="col">Part Base-Cost</th>
+                        <th scope="col">Qty</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="part,i:${purchasedtlsadd}">
+                        <th scope="row" th:text="${i.count}"></th>
+                        <td th:text="${part.part.partcode}"></td>
+                        <td th:text="${part.part.basecost}"></td>
+                        <td th:text="${part.qty}"></td>
+                        <td th:if="${purchase.defaultstatus=='PICKING'}">
+                            <a th:href="@{/purchase/removepart?dtlid={dtlid}&purchaseid={purchaseid}(dtlid=${part.id},purchaseid=${purchase.id})}"
+                               class="btn btn-danger">Remove</a>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+                <hr>
+                <br>
+<!--                on click to confirm button status from picking to ordered-->
+                <div th:if="${purchase.defaultstatus=='PICKING'}" class="text-lg-center ">
+                    <a th:href="@{/purchase/confirm/{id}(id=${purchase.id})}" class="btn btn-primary">Confirm</a>
+
+                </div>
+                <div th:if="${purchase.defaultstatus=='ORDERED'}">
+                    <p class="text-center alert alert-info">Order placed are <span th:text="${purchasedtlsadd.size()}"></span></p>
+                </div>
+            </div>
+        </div>
+        <!--part details table end  -->
     </div>
 </section>
 </body>

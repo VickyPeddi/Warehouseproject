@@ -22,4 +22,7 @@ public class Purchasedtl
     @ManyToOne
     @JoinColumn(name = "part_purchasedetails")
     private Part part;
+    @ManyToOne
+    @JoinColumn(name = "purchaseorder_purchasedtl")
+    private Purchaseorder purchaseorder;
 }

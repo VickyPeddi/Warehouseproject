@@ -1,13 +1,16 @@
 package first.man.service;
 
-import first.man.dao.Partinterface;
-import first.man.exception.Notfoundexception;
-import first.man.model.Part;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import first.man.dao.Partinterface;
+import first.man.exception.Notfoundexception;
+import first.man.model.Part;
 
 @Service
 @Transactional
@@ -44,5 +47,9 @@ public class Partservice {
 
     }
 
+    public Map<Integer, String> getpartidandpartcode() {
+        Map<Integer, String> map = repos.findpartidandpartcode().stream().collect(Collectors.toMap(one -> Integer.valueOf(one[0].toString()), two -> two[1].toString()));
+        return map;
+    }
 
 }

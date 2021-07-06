@@ -23,6 +23,10 @@
             <th>
                 Shipmentcode
             </th>
+
+            <th >
+                User Type
+            </th>
             <th>
                 Reference Number
             </th>
@@ -43,12 +47,19 @@
             <td th:text="${purchase.user.usertype}"></td>
             <td th:text="${purchase.referencenumber}"></td>
             <td th:text="${purchase.qualitycheck}"></td>
-            <td th:text="${purchase.defaultstatus}"></td>
+            <td  class="alert-info"  th:text="${purchase.defaultstatus}"></td>
             <td th:text="${purchase.description}"></td>
             <td><a th:href="@{/purchase/update/{id}(id=${purchase.id})}"><b> <i>Update</i></b></a></td>
             <td><a th:href="@{/purchase/delete/{id}(id=${purchase.id})}"><b> <i>Delete</i></b></a></td>
             <!--this is hyperlink for purhase order details html page-->
             <td><a th:href="@{/purchase/dtls/{id}(id=${purchase.id})}"><b> <i>Parts</i></b></a></td>
+            <div th:switch="${purchase.defaultstatus}">
+                <span th:case="${'ORDERED'}"><td><a th:href="@{/purchase/invoiceorder/{id}(id=${purchase.id})}"><b> <i>Generate Invoice</i></b></a></td></span>
+                <span th:case="${'INVOICED'}"><td><a th:href="@{/purchase/printinvoice/{id}(id=${purchase.id})}"><b> <i>Download Invoice</i></b></a></td></span>
+                <span th:case="${'PICKING'}"><td>STILL - PICKING</td></span>
+                <span th:case="${'OPENED'}"><td>ITEMS TO BE SELECTED</td></span>
+            </div>
+
         </tr>
 
 

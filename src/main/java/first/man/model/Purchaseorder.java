@@ -1,8 +1,11 @@
 package first.man.model;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Setter
@@ -27,6 +30,9 @@ public class Purchaseorder {
     @ManyToOne
     @JoinColumn(name = "Userpurchase")
     private User user;
+
+    @OneToMany(mappedBy = "purchaseorder",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Purchasedtl> purchasedtls;
 
 
 }
